@@ -1,0 +1,19 @@
+:host {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    max-width: 700px;
+    padding: 2em;
+    margin: 2em auto 0em;
+    background: #fff;
+    border-radius: 10px;
+
+    h1 {
+        text-align: center;
+    }
+
+    mat-form-field {
+        width: 100%;
+    }    
+}
