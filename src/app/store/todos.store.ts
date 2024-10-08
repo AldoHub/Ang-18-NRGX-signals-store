@@ -26,18 +26,43 @@ export const TodosStore = signalStore(
     withMethods(
         (store, todosService = inject(TodosService)) => ({
 
-            //define the store methods
+            //--- DEFINE THE STORE METHODS
             async loadAll(){
-                
+                //get all todos
                 patchState(store, {loading: true})
                 const todos = await todosService.getTodos();
                 patchState(store, {todos, loading: false});
 
-            }
+            },
 
-            //TODO: 39:18
+            async addTodo(title: string){
+                //save todo
+                const todo = await todosService.addTodo({title, completed: false});
 
+                patchState(store, (state) => ({
+                    todos: [...state.todos, todo]    
+                })
+                )
+            },
+            
+            async deleteTodo(id: string) {
+                //delete todo
+                await todosService.deleteTodo(id);
 
+                patchState(store, (state) => ({
+                   todos: state.todos.filter(todo => todo.id !== id)
+                }))
+            },
+
+            async updateTodo(id: string, completed: boolean) {
+                //update todo
+                await todosService.updateTodo(id, completed);
+
+                patchState(store, (state) => ({
+                   todos: state.todos.map((todo) => 
+                    todo.id == id ? {...todo, completed} : todo )
+                }))
+            },
         })
     )
         
